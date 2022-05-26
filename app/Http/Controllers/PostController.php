@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\PostCreateRequest;
+use App\Http\Requests\PostUpdateRequest;
 use App\Models\Post;
 
 class PostController extends Controller
@@ -20,14 +21,14 @@ class PostController extends Controller
         return view('posts.create');
     }
 
-    public function store(Request $request)
+    public function store(PostCreateRequest $request)
     {
-        $requestData = $request->all();
-        
+        $validatedData = $request->validated();
+
         $post = Post::create([
-            'title' => $requestData['title'],
-            'body' => $requestData['body'],
-            'author_name' => $requestData['author_name'],
+            'title' => $validatedData['title'],
+            'body' => $validatedData['body'],
+            'author_name' => $validatedData['author_name'],
         ]);
 
         $post->save();
@@ -49,13 +50,13 @@ class PostController extends Controller
         ]);
     }
 
-    public function update(Request $request, Post $post)
+    public function update(PostUpdateRequest $request, Post $post)
     {
-        $requestData = $request->all();
+        $validatedData = $request->validated();
         
-        $post->title = $requestData['title'];
-        $post->body = $requestData['body'];
-        $post->author_name = $requestData['author_name'];
+        $post->title = $validatedData['title'];
+        $post->body = $validatedData['body'];
+        $post->author_name = $validatedData['author_name'];
 
         $post->save();
 
