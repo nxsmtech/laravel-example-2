@@ -6,7 +6,7 @@ this is show
 <br>
 {{ $post->author_name }}
 
-<h2>Comments</h2>
+<h2>Comments: {{ $post->comments()->count() }}</h2>
 
 <ul>
     @foreach ($post->comments as $comment)
@@ -32,7 +32,7 @@ this is show
     <div>
         Body : <input type="text" name="body" value="{{ old('body')}}">
     </div>
-    <input type="hidden" name="post_id" value="{{ $post->id }}">
-
+    <input type="hidden" name="commentable_id" value="{{ $post->id }}">
+    <input type="hidden" name="commentable_type" value="{{ get_class($post); }}">
     <input type="submit">
 </form>
