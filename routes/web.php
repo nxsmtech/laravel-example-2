@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
+use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 use App\Models\Comment;
 
@@ -17,21 +18,25 @@ use App\Models\Comment;
 */
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::controller(PostController::class)->group(function () {
-    Route::prefix('posts')->group(function () {
-        Route::get('/', 'index')->name('posts.index');
-        Route::get('/create', 'create')->name('posts.create');
-        Route::post('/create', 'store')->name('posts.store');
-        Route::get('/show/{post}', 'show')->name('posts.show');
-        Route::get('/edit/{post}', 'edit')->name('posts.edit');
-        Route::post('/edit/{post}', 'update')->name('posts.update');
-        Route::get('/destroy/{post}', 'destroy')->name('posts.destroy');
+Route::middleware([IsAdmin::class])->group(function () {
+    Route::prefix('admin')->group(function () {
+        Route::controller(PostController::class)->group(function () {
+            Route::prefix('posts')->group(function () {
+                Route::get('/', 'index')->name('posts.index');
+                Route::get('/create', 'create')->name('posts.create');
+                Route::post('/create', 'store')->name('posts.store');
+                Route::get('/show/{post}', 'show')->name('posts.show');
+                Route::get('/edit/{post}', 'edit')->name('posts.edit');
+                Route::post('/edit/{post}', 'update')->name('posts.update');
+                Route::get('/destroy/{post}', 'destroy')->name('posts.destroy');
+            });
+        });
     });
 });
 

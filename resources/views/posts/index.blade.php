@@ -1,4 +1,4 @@
-@extends('dashboard')
+{{-- @extends('dashboard') --}}
 
 @section('content')
 <div class="mx-12 text-red-400 border-solid border-2 rounded-md border-red-700">
