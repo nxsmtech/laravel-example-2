@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
+use App\Http\Middleware\HasLocale;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 use App\Models\Comment;
@@ -18,7 +19,7 @@ use App\Models\Comment;
 */
 Route::get('/', function () {
     return view('welcome');
-})->name('welcome');
+})->name('welcome')->middleware(['hasLocale']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
